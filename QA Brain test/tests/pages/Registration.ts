@@ -2,7 +2,7 @@ import { Locator, Page } from "@playwright/test";
 import basePage from "./basePage";
 
 export class Registration extends basePage {
-  readonly username: Locator;
+  readonly userName: Locator;
   readonly userCountry: Locator;
   readonly userAccount: Locator;
   readonly userEmail: Locator;
@@ -13,11 +13,9 @@ export class Registration extends basePage {
   constructor(page: Page) {
     super(page);
     this.signupButton = page.getByRole("button", { name: "SIGNUP" });
-    this.username = page.getByLabel("Name");
+    this.userName = page.getByLabel("Name");
     this.userCountry = page.getByRole("combobox", { name: "Select Country" });
-    this.userAccount = page.getByRole("combobox", {
-      name: "Account Type",
-    });
+    this.userAccount = page.getByRole("combobox", { name: "Account Type" });
     this.userEmail = page.getByLabel("Email");
     this.userPassword = page.locator("#password");
     this.userConfirmPassword = page.locator("#confirm_password");
@@ -33,9 +31,9 @@ export class Registration extends basePage {
     account: string,
     email: string,
     password: string,
-    confirmPassword: string
+    confirmPassword: string,
   ) {
-    await this.username.fill(name);
+    await this.userName.fill(name);
     await this.userCountry.selectOption(country);
     await this.userAccount.selectOption(account);
     await this.userEmail.fill(email);
