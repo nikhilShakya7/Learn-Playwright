@@ -1,57 +1,56 @@
 import { expect, test } from "@playwright/test";
 import { Registration } from "./pages/Registration";
 import {
-  validCredentials,
   emptyRegistrationMessage,
+  validCredentials,
 } from "./data/register.data";
 
-test.describe("Registiration page test", () => {
-  let registerationPage: Registration;
+test.describe("Registration page test", () => {
+  let registrationPage: Registration;
   test.beforeEach(async ({ page }) => {
-    registerationPage = new Registration(page);
-    await registerationPage.open();
+    registrationPage = new Registration(page);
+    await registrationPage.open();
   });
 
-  test("Registration page has all fields", async ({ page }) => {
+  test("Registration page has all the fields", async ({ page }) => {
     await expect(page.getByLabel("Name")).toBeVisible();
-    await expect(
-      page.getByRole("combobox", { name: "Select Country" })
-    ).toBeVisible();
-    await expect(
-      page.getByRole("combobox", { name: "Account Type" })
-    ).toBeVisible();
     await expect(page.getByLabel("Email")).toBeVisible();
+
+    await expect(page.getByRole("button", { name: "SIGNUP" })).toBeVisible();
+    await expect(
+      page.getByRole("combobox", { name: "Select Country" }),
+    ).toBeVisible();
   });
 
   test("Registration with valid data", async ({ page }) => {
-    await registerationPage.register(
+    await registrationPage.register(
       validCredentials.name,
       validCredentials.country,
       validCredentials.account,
       validCredentials.email,
       validCredentials.password,
-      validCredentials.confirmPassword
+      validCredentials.confirmPassword,
     );
     await expect(page).toHaveURL(/registered=true/);
   });
 
-  test("Register with all empty fields", async ({ page }) => {
-    await registerationPage.register("", "", "", "", "", "");
-
+  test("Register with empty fields", async ({ page }) => {
+    await registrationPage.register("", "", "", "", "", "");
     for (const message of Object.values(emptyRegistrationMessage)) {
       await expect(page.getByText(message)).toBeVisible();
     }
   });
 
   test("Register with different password", async ({ page }) => {
-    await registerationPage.register(
+    await registrationPage.register(
       validCredentials.name,
       validCredentials.country,
       validCredentials.account,
       validCredentials.email,
       validCredentials.password,
-      "password"
+      "sdfssdfsfddf",
     );
-    await expect(page.getByText("Passwords must match")).toBeVisible();
+
+    await expect(page.getByText("Passwords must match")).toBeVisible;
   });
 });

@@ -8,10 +8,9 @@ export class LoginPage extends basePage {
 
   constructor(page: Page) {
     super(page);
-
     this.userEmail = page.getByLabel("Email");
     this.userPassword = page.getByLabel("Password");
-    this.loginButton = page.getByRole("button", { name: "Login" });
+    this.loginButton = page.getByRole("button", { name: "LOGIN" });
   }
 
   async open() {
