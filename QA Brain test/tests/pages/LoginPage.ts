@@ -12,7 +12,6 @@ export class LoginPage extends basePage {
     this.userPassword = page.getByLabel("Password");
     this.loginButton = page.getByRole("button", { name: "LOGIN" });
   }
-
   async open() {
     await this.page.goto("https://practice.qabrains.com/");
   }
